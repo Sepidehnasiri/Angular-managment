@@ -1,0 +1,95 @@
+.back-link {
+  margin-bottom: 12px;
+}
+
+.details-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.hero-image {
+  height: 280px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  background-color: #ddd;
+}
+
+.details-main {
+  h1 {
+    margin: 8px 0;
+  }
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 12px 0;
+  color: var(--app-muted, #666);
+  font-size: 0.95rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+mat-divider {
+  margin: 20px 0;
+}
+
+.description {
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.ticket-types {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px 0 24px;
+}
+
+.ticket-type-card {
+  background: var(--app-card-bg, #fff);
+}
+
+.ticket-type-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.availability {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: var(--app-muted, #666);
+}
+
+.ticket-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.book-btn {
+  width: 100%;
+  max-width: 280px;
+}
+
+@media (min-width: 800px) {
+  .details-layout {
+    flex-direction: row;
+  }
+
+  .hero-image {
+    flex: 0 0 320px;
+    height: 320px;
+  }
+
+  .details-main {
+    flex: 1;
+  }
+}

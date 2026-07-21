@@ -1,0 +1,67 @@
+<div class="page-container">
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading event…</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error() }}</p>
+      <button mat-stroked-button (click)="loadEvent()">Retry</button>
+      <a mat-button routerLink="/events">Back to events</a>
+    </div>
+  } @else if (event(); as e) {
+    <a mat-button routerLink="/events" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      Back to events
+    </a>
+
+    <div class="details-layout">
+      <div class="hero-image" [style.backgroundImage]="'url(' + e.image + ')'"></div>
+
+      <div class="details-main">
+        <mat-chip-set>
+          <mat-chip>{{ e.category }}</mat-chip>
+        </mat-chip-set>
+
+        <h1>{{ e.title }}</h1>
+
+        <div class="meta-row">
+          <span><mat-icon inline="true">event</mat-icon> {{ e.date | date: 'fullDate' }}</span>
+          <span><mat-icon inline="true">schedule</mat-icon> {{ e.time }}</span>
+          <span><mat-icon inline="true">place</mat-icon> {{ e.venue }}, {{ e.location }}</span>
+          <span><mat-icon inline="true">person</mat-icon> {{ e.organizerName }}</span>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <h2>About this event</h2>
+        <p class="description">{{ e.description }}</p>
+
+        <mat-divider></mat-divider>
+
+        <h2>Tickets</h2>
+        <div class="ticket-types">
+          @for (t of e.ticketTypes; track t.id) {
+            <mat-card appearance="outlined" class="ticket-type-card">
+              <mat-card-content>
+                <div class="ticket-type-row">
+                  <div>
+                    <strong>{{ t.name }}</strong>
+                    <p class="availability">{{ t.available }} available</p>
+                  </div>
+                  <span class="ticket-price">{{ t.price === 0 ? 'Free' : ('$' + t.price) }}</span>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+
+        <a mat-flat-button color="primary" class="book-btn" [routerLink]="['/events', e.id, 'book']">
+          Book Tickets
+        </a>
+      </div>
+    </div>
+  }
+</div>
