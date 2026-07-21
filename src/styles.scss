@@ -1,0 +1,57 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--app-bg, #fafafa);
+  color: var(--app-fg, #1a1a1a);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+// ---- Theme variables ----
+body.theme-light {
+  --app-bg: #fafafa;
+  --app-fg: #1a1a1a;
+  --app-card-bg: #ffffff;
+  --app-border: #e0e0e0;
+  --app-muted: #6b6b6b;
+}
+
+body.theme-dark {
+  --app-bg: #121212;
+  --app-fg: #f1f1f1;
+  --app-card-bg: #1e1e1e;
+  --app-border: #333333;
+  --app-muted: #a0a0a0;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.empty-state, .loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 64px 16px;
+  color: var(--app-muted);
+  text-align: center;
+}
+
+.error-state {
+  color: #d32f2f;
+}
