@@ -1,0 +1,59 @@
+.filter-toggle {
+  margin-bottom: 20px;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.booking-card {
+  background: var(--app-card-bg, #fff);
+}
+
+.booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.status-confirmed {
+  --mdc-chip-elevated-container-color: #e6f4ea;
+  --mdc-chip-label-text-color: #1e7e34;
+}
+
+.status-cancelled {
+  --mdc-chip-elevated-container-color: #fdecea;
+  --mdc-chip-label-text-color: #c62828;
+}
+
+.booking-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 12px 0;
+  color: var(--app-muted, #666);
+  font-size: 0.9rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .ref {
+    margin-left: auto;
+    font-family: monospace;
+  }
+}
+
+.booking-actions {
+  display: flex;
+  justify-content: flex-end;
+}

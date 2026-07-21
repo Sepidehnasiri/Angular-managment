@@ -1,0 +1,70 @@
+<div class="page-container">
+  <h1>My Bookings</h1>
+
+  <mat-button-toggle-group
+    [value]="filter()"
+    (change)="filter.set($event.value)"
+    class="filter-toggle"
+  >
+    <mat-button-toggle value="upcoming">Upcoming</mat-button-toggle>
+    <mat-button-toggle value="past">Past</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading your bookings…</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error() }}</p>
+      <button mat-stroked-button (click)="loadBookings()">Retry</button>
+    </div>
+  } @else if (filteredBookings().length === 0) {
+    <div class="empty-state">
+      <mat-icon>event_busy</mat-icon>
+      <p>No bookings yet.</p>
+      <a mat-flat-button color="primary" routerLink="/events">Browse events</a>
+    </div>
+  } @else {
+    <div class="bookings-list">
+      @for (booking of filteredBookings(); track booking.id) {
+        <mat-card appearance="outlined" class="booking-card">
+          <mat-card-content>
+            <div class="booking-header">
+              <h3>{{ booking.eventTitle }}</h3>
+              <mat-chip [ngClass]="booking.status === 'cancelled' ? 'status-cancelled' : 'status-confirmed'">
+                {{ booking.status }}
+              </mat-chip>
+            </div>
+
+            <div class="booking-meta">
+              <span><mat-icon inline="true">event</mat-icon> {{ booking.eventDate | date: 'mediumDate' }}</span>
+              <span><mat-icon inline="true">confirmation_number</mat-icon> {{ totalTickets(booking) }} ticket(s)</span>
+              <span><mat-icon inline="true">payments</mat-icon> ${{ booking.totalAmount }}</span>
+              <span class="ref">Ref: {{ booking.referenceNumber }}</span>
+            </div>
+
+            @if (filter() === 'upcoming' && booking.status === 'confirmed') {
+              <div class="booking-actions">
+                <button
+                  mat-stroked-button
+                  color="warn"
+                  [disabled]="cancellingId() === booking.id"
+                  (click)="cancelBooking(booking)"
+                >
+                  @if (cancellingId() === booking.id) {
+                    <mat-spinner diameter="16"></mat-spinner>
+                  } @else {
+                    Cancel Booking
+                  }
+                </button>
+              </div>
+            }
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
