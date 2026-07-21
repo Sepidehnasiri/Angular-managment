@@ -17,6 +17,12 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+# PowerShell 7+ turns any non-zero exit code from a native command (like `git`) into a
+# terminating error, even when stderr is redirected. Git legitimately exits non-zero for
+# routine things (e.g. "remote already exists" / "no such remote"), so turn that off here.
+if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -Scope Global -ErrorAction SilentlyContinue) {
+    $PSNativeCommandUseErrorActionPreference = $false
+}
 
 # Run from the repo root regardless of where the script is invoked from
 Set-Location (Join-Path $PSScriptRoot "..")
@@ -62,8 +68,12 @@ Commit-Step -Paths @("db.json", "README.md", "scripts") -Message "chore: mock ba
 # Catch-all in case anything was missed
 Commit-Step -Paths @(".") -Message "chore: remaining project files"
 
-git remote remove origin 2>$null
-git remote add origin $RemoteUrl
+$existingRemotes = git remote
+if ($existingRemotes -contains "origin") {
+    git remote set-url origin $RemoteUrl
+} else {
+    git remote add origin $RemoteUrl
+}
 git push -u origin main
 
 Write-Host "`nDone. Pushed to $RemoteUrl"
