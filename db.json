@@ -1,0 +1,177 @@
+{
+  "events": [
+    {
+      "id": "1",
+      "title": "Angular Conference 2026",
+      "description": "Annual Angular developers conference featuring talks from the core team, workshops on signals and standalone components, and networking with the community.",
+      "category": "Technology",
+      "date": "2026-08-15",
+      "time": "09:00 AM",
+      "location": "Toronto, ON",
+      "venue": "Convention Centre",
+      "image": "https://picsum.photos/seed/angularconf/400/200",
+      "organizerName": "Tech Events Inc",
+      "ticketTypes": [
+        { "id": "1", "name": "General", "price": 99, "available": 100 },
+        { "id": "2", "name": "VIP", "price": 299, "available": 20 }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "React Summit",
+      "description": "A single-day summit covering the latest in React, server components, and the wider frontend ecosystem.",
+      "category": "Technology",
+      "date": "2026-07-25",
+      "time": "10:00 AM",
+      "location": "Vancouver, BC",
+      "venue": "Waterfront Hall",
+      "image": "https://picsum.photos/seed/reactsummit/400/200",
+      "organizerName": "Frontend Guild",
+      "ticketTypes": [
+        { "id": "1", "name": "General", "price": 79, "available": 150 }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Indie Rock Night",
+      "description": "An evening of live indie rock performances from up-and-coming local bands.",
+      "category": "Music",
+      "date": "2026-07-22",
+      "time": "08:00 PM",
+      "location": "Toronto, ON",
+      "venue": "The Garrison",
+      "image": "https://picsum.photos/seed/indierock/400/200",
+      "organizerName": "Live Nation Local",
+      "ticketTypes": [
+        { "id": "1", "name": "General Admission", "price": 0, "available": 200 },
+        { "id": "2", "name": "VIP Balcony", "price": 40, "available": 30 }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "City Marathon",
+      "description": "Annual city marathon with 5K, 10K, and full marathon routes through downtown.",
+      "category": "Sports",
+      "date": "2026-08-02",
+      "time": "07:00 AM",
+      "location": "Toronto, ON",
+      "venue": "City Hall Plaza",
+      "image": "https://picsum.photos/seed/citymarathon/400/200",
+      "organizerName": "Toronto Runners Club",
+      "ticketTypes": [
+        { "id": "1", "name": "Runner Entry", "price": 0, "available": 5000 }
+      ]
+    },
+    {
+      "id": "5",
+      "title": "Modern Art Expo",
+      "description": "A curated exhibition of modern and contemporary art from emerging Canadian artists.",
+      "category": "Arts",
+      "date": "2026-09-10",
+      "time": "11:00 AM",
+      "location": "Ottawa, ON",
+      "venue": "National Gallery Annex",
+      "image": "https://picsum.photos/seed/artexpo/400/200",
+      "organizerName": "Ottawa Arts Council",
+      "ticketTypes": [
+        { "id": "1", "name": "Admission", "price": 25, "available": 300 }
+      ]
+    },
+    {
+      "id": "6",
+      "title": "Jazz Festival",
+      "description": "A weekend celebration of jazz featuring local and international performers across three stages.",
+      "category": "Music",
+      "date": "2026-07-30",
+      "time": "05:00 PM",
+      "location": "Montreal, QC",
+      "venue": "Place des Arts",
+      "image": "https://picsum.photos/seed/jazzfest/400/200",
+      "organizerName": "Montreal Jazz Society",
+      "ticketTypes": [
+        { "id": "1", "name": "Single Day", "price": 60, "available": 500 },
+        { "id": "2", "name": "Weekend Pass", "price": 150, "available": 200 }
+      ]
+    },
+    {
+      "id": "7",
+      "title": "Startup Pitch Night",
+      "description": "Local founders pitch their startups to a panel of investors, followed by networking.",
+      "category": "Technology",
+      "date": "2026-07-21",
+      "time": "06:30 PM",
+      "location": "Toronto, ON",
+      "venue": "MaRS Discovery District",
+      "image": "https://picsum.photos/seed/pitchnight/400/200",
+      "organizerName": "Toronto Startup Collective",
+      "ticketTypes": [
+        { "id": "1", "name": "General Admission", "price": 0, "available": 120 }
+      ]
+    },
+    {
+      "id": "8",
+      "title": "Contemporary Dance Show",
+      "description": "A contemporary dance performance exploring movement and storytelling.",
+      "category": "Arts",
+      "date": "2026-06-01",
+      "time": "07:30 PM",
+      "location": "Toronto, ON",
+      "venue": "Harbourfront Theatre",
+      "image": "https://picsum.photos/seed/danceshow/400/200",
+      "organizerName": "Toronto Dance Collective",
+      "ticketTypes": [
+        { "id": "1", "name": "General", "price": 45, "available": 80 }
+      ]
+    }
+  ],
+  "bookings": [
+    {
+      "id": "1",
+      "userId": "user1",
+      "eventId": "1",
+      "eventTitle": "Angular Conference 2026",
+      "eventDate": "2026-08-15",
+      "tickets": [{ "type": "General", "quantity": 2, "price": 99 }],
+      "attendees": [
+        { "name": "John Doe", "email": "john@example.com", "phone": "1234567890" },
+        { "name": "Jane Doe", "email": "jane@example.com", "phone": "1234567891" }
+      ],
+      "totalAmount": 198,
+      "status": "confirmed",
+      "bookingDate": "2026-07-01",
+      "referenceNumber": "BK123456"
+    },
+    {
+      "id": "2",
+      "userId": "user1",
+      "eventId": "8",
+      "eventTitle": "Contemporary Dance Show",
+      "eventDate": "2026-06-01",
+      "tickets": [{ "type": "General", "quantity": 1, "price": 45 }],
+      "attendees": [
+        { "name": "John Doe", "email": "john@example.com", "phone": "1234567890" }
+      ],
+      "totalAmount": 45,
+      "status": "confirmed",
+      "bookingDate": "2026-05-15",
+      "referenceNumber": "BK789012"
+    },
+    {
+      "id": "3",
+      "userId": "user1",
+      "eventId": "6",
+      "eventTitle": "Jazz Festival",
+      "eventDate": "2026-07-30",
+      "tickets": [{ "type": "Single Day", "quantity": 3, "price": 60 }],
+      "attendees": [
+        { "name": "John Doe", "email": "john@example.com", "phone": "1234567890" },
+        { "name": "Jane Doe", "email": "jane@example.com", "phone": "1234567891" },
+        { "name": "Sam Lee", "email": "sam@example.com", "phone": "1234567892" }
+      ],
+      "totalAmount": 180,
+      "status": "cancelled",
+      "bookingDate": "2026-07-05",
+      "referenceNumber": "BK345678"
+    }
+  ]
+}
