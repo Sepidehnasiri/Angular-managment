@@ -1,0 +1,111 @@
+<div class="page-container">
+  <h1>Discover Events</h1>
+
+  <div class="filters-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search by title</mat-label>
+      <input
+        matInput
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+        placeholder="e.g. Angular Conference"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select [ngModel]="category()" (ngModelChange)="category.set($event)">
+        @for (c of categories(); track c) {
+          <mat-option [value]="c">{{ c === 'all' ? 'All categories' : c }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <mat-select [ngModel]="dateFilter()" (ngModelChange)="dateFilter.set($event)">
+        <mat-option value="all">Any date</mat-option>
+        <mat-option value="upcoming">Upcoming</mat-option>
+        <mat-option value="this-week">This week</mat-option>
+        <mat-option value="this-month">This month</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Price</mat-label>
+      <mat-select [ngModel]="priceFilter()" (ngModelChange)="priceFilter.set($event)">
+        <mat-option value="all">Any price</mat-option>
+        <mat-option value="free">Free</mat-option>
+        <mat-option value="under-50">Under $50</mat-option>
+        <mat-option value="50-plus">$50+</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Sort by</mat-label>
+      <mat-select [ngModel]="sort()" (ngModelChange)="sort.set($event)">
+        <mat-option value="date-asc">Date (soonest first)</mat-option>
+        <mat-option value="date-desc">Date (latest first)</mat-option>
+        <mat-option value="price-asc">Price (low to high)</mat-option>
+        <mat-option value="price-desc">Price (high to low)</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading events…</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error() }}</p>
+      <button mat-stroked-button (click)="loadEvents()">Retry</button>
+    </div>
+  } @else if (filteredEvents().length === 0) {
+    <div class="empty-state">
+      <mat-icon>event_busy</mat-icon>
+      <p>No events found. Try adjusting your search or filters.</p>
+    </div>
+  } @else {
+    <div class="event-grid">
+      @for (event of filteredEvents(); track event.id) {
+        <a class="event-card-link" [routerLink]="['/events', event.id]">
+          <mat-card class="event-card" appearance="outlined">
+            <div class="card-image" [style.backgroundImage]="'url(' + event.image + ')'">
+              <button
+                mat-icon-button
+                class="favorite-btn"
+                [matTooltip]="favorites.isFavorite(event.id) ? 'Remove from favorites' : 'Add to favorites'"
+                (click)="toggleFavorite(event.id, $event)"
+              >
+                <mat-icon [color]="favorites.isFavorite(event.id) ? 'warn' : undefined">
+                  {{ favorites.isFavorite(event.id) ? 'favorite' : 'favorite_border' }}
+                </mat-icon>
+              </button>
+            </div>
+            <mat-card-content>
+              <mat-chip-set>
+                <mat-chip>{{ event.category }}</mat-chip>
+              </mat-chip-set>
+              <h3 class="event-title">{{ event.title }}</h3>
+              <p class="event-meta">
+                <mat-icon inline="true">event</mat-icon>
+                {{ event.date | date: 'mediumDate' }}
+              </p>
+              <p class="event-meta">
+                <mat-icon inline="true">place</mat-icon>
+                {{ event.location }}
+              </p>
+              <p class="event-price">
+                {{ minPrice(event) === 0 ? 'Free' : ('From $' + minPrice(event)) }}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      }
+    </div>
+  }
+</div>
