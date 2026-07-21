@@ -1,0 +1,186 @@
+<div class="page-container">
+  @if (loading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading event…</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <mat-icon>error_outline</mat-icon>
+      <p>{{ error() }}</p>
+      <a mat-button routerLink="/events">Back to events</a>
+    </div>
+  } @else if (event(); as e) {
+    <a mat-button [routerLink]="['/events', e.id]" class="back-link">
+      <mat-icon>arrow_back</mat-icon>
+      Back to {{ e.title }}
+    </a>
+
+    <h1>Book Tickets — {{ e.title }}</h1>
+
+    <mat-horizontal-stepper #stepper linear class="booking-stepper">
+      <!-- Step 1: Select Tickets -->
+      <mat-step [stepControl]="ticketsForm" label="Select Tickets">
+        <form [formGroup]="ticketsForm" class="step-content">
+          <p class="step-hint">Choose your ticket types and quantities.</p>
+
+          @for (t of e.ticketTypes; track t.id) {
+            <div class="ticket-row">
+              <div class="ticket-info">
+                <strong>{{ t.name }}</strong>
+                <span class="ticket-price-inline">{{ t.price === 0 ? 'Free' : ('$' + t.price) }}</span>
+                <span class="ticket-available">({{ t.available }} available)</span>
+              </div>
+              <mat-form-field appearance="outline" class="qty-field">
+                <mat-label>Qty</mat-label>
+                <input
+                  matInput
+                  type="number"
+                  min="0"
+                  [max]="t.available"
+                  [formControlName]="t.id"
+                />
+              </mat-form-field>
+            </div>
+          }
+
+          @if (ticketsForm.invalid && ticketsForm.touched) {
+            <p class="field-error">Please select at least one ticket.</p>
+          }
+
+          <div class="total-row">
+            <span>Total</span>
+            <strong>{{ totalAmount() === 0 ? 'Free' : ('$' + totalAmount()) }}</strong>
+          </div>
+
+          <div class="step-actions">
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              [disabled]="ticketsForm.invalid"
+              (click)="ticketsForm.markAllAsTouched(); onTicketsStepChange(); stepper.next()"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Step 2: Attendee Details -->
+      <mat-step [stepControl]="attendeesForm" label="Attendee Details">
+        <form [formGroup]="attendeesForm" class="step-content">
+          <p class="step-hint">Enter details for each attendee ({{ totalTicketCount() }} ticket(s)).</p>
+
+          <div formArrayName="attendees">
+            @for (group of attendeeControls.controls; track $index) {
+              <mat-card appearance="outlined" class="attendee-card" [formGroupName]="$index">
+                <mat-card-content>
+                  <h3>Attendee {{ $index + 1 }}</h3>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Name</mat-label>
+                    <input matInput formControlName="name" />
+                    @if (group.get('name')?.invalid && group.get('name')?.touched) {
+                      <mat-error>Name is required (min 2 characters).</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" formControlName="email" />
+                    @if (group.get('email')?.invalid && group.get('email')?.touched) {
+                      <mat-error>A valid email is required.</mat-error>
+                    }
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Phone</mat-label>
+                    <input matInput formControlName="phone" />
+                    @if (group.get('phone')?.invalid && group.get('phone')?.touched) {
+                      <mat-error>A valid phone number is required.</mat-error>
+                    }
+                  </mat-form-field>
+                </mat-card-content>
+              </mat-card>
+            }
+          </div>
+
+          <div class="step-actions">
+            <button mat-button type="button" matStepperPrevious>Back</button>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              [disabled]="attendeesForm.invalid"
+              (click)="attendeesForm.markAllAsTouched()"
+              matStepperNext
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+
+      <!-- Step 3: Confirmation -->
+      <mat-step label="Confirmation">
+        <div class="step-content">
+          @if (!bookingReference()) {
+            <p class="step-hint">Review your booking before confirming.</p>
+
+            <mat-card appearance="outlined" class="summary-card">
+              <mat-card-content>
+                <h3>{{ e.title }}</h3>
+                <p>{{ e.date | date: 'mediumDate' }} · {{ e.time }} · {{ e.venue }}</p>
+
+                <table class="summary-table">
+                  @for (row of ticketBreakdown(); track row.name) {
+                    <tr>
+                      <td>{{ row.name }} × {{ row.qty }}</td>
+                      <td>{{ row.subtotal === 0 ? 'Free' : ('$' + row.subtotal) }}</td>
+                    </tr>
+                  }
+                </table>
+
+                <div class="total-row">
+                  <span>Total</span>
+                  <strong>{{ totalAmount() === 0 ? 'Free' : ('$' + totalAmount()) }}</strong>
+                </div>
+              </mat-card-content>
+            </mat-card>
+
+            @if (submitError()) {
+              <p class="field-error">{{ submitError() }}</p>
+            }
+
+            <div class="step-actions">
+              <button mat-button type="button" matStepperPrevious [disabled]="submitting()">Back</button>
+              <button
+                mat-flat-button
+                color="primary"
+                type="button"
+                [disabled]="submitting()"
+                (click)="confirmBooking()"
+              >
+                @if (submitting()) {
+                  <mat-spinner diameter="18"></mat-spinner>
+                } @else {
+                  Confirm Booking
+                }
+              </button>
+            </div>
+          } @else {
+            <div class="success-panel">
+              <mat-icon color="primary" class="success-icon">check_circle</mat-icon>
+              <h2>Booking Confirmed!</h2>
+              <p>Your reference number is</p>
+              <p class="reference-number">{{ bookingReference() }}</p>
+              <button mat-flat-button color="primary" (click)="goToMyBookings()">
+                View My Bookings
+              </button>
+            </div>
+          }
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  }
+</div>
