@@ -1,0 +1,33 @@
+<mat-toolbar color="primary" class="header-toolbar">
+  <a routerLink="/events" class="brand">
+    <mat-icon>event</mat-icon>
+    <span>EventHub</span>
+  </a>
+
+  <nav class="nav-links">
+    <a
+      mat-button
+      routerLink="/events"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      Events
+    </a>
+    <a mat-button routerLink="/my-bookings" routerLinkActive="active-link">
+      My Bookings
+    </a>
+  </nav>
+
+  <span class="spacer"></span>
+
+  <span class="user-name">{{ user.displayName }}</span>
+
+  <button
+    mat-icon-button
+    [matTooltip]="theme.theme() === 'light' ? 'Switch to dark mode' : 'Switch to light mode'"
+    (click)="theme.toggle()"
+    aria-label="Toggle theme"
+  >
+    <mat-icon>{{ theme.theme() === 'light' ? 'dark_mode' : 'light_mode' }}</mat-icon>
+  </button>
+</mat-toolbar>
