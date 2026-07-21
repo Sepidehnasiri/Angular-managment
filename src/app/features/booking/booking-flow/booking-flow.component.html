@@ -10,7 +10,8 @@
       <p>{{ error() }}</p>
       <a mat-button routerLink="/events">Back to events</a>
     </div>
-  } @else if (event(); as e) {
+  } @else {
+    @if (event(); as e) {
     <a mat-button [routerLink]="['/events', e.id]" class="back-link">
       <mat-icon>arrow_back</mat-icon>
       Back to {{ e.title }}
@@ -182,5 +183,6 @@
         </div>
       </mat-step>
     </mat-horizontal-stepper>
+    }
   }
 </div>

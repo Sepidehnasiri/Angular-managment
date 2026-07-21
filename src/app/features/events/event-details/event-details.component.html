@@ -11,7 +11,8 @@
       <button mat-stroked-button (click)="loadEvent()">Retry</button>
       <a mat-button routerLink="/events">Back to events</a>
     </div>
-  } @else if (event(); as e) {
+  } @else {
+    @if (event(); as e) {
     <a mat-button routerLink="/events" class="back-link">
       <mat-icon>arrow_back</mat-icon>
       Back to events
@@ -63,5 +64,6 @@
         </a>
       </div>
     </div>
+    }
   }
 </div>
