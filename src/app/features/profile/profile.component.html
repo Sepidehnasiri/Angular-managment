@@ -1,0 +1,26 @@
+<div class="page-container">
+  <h1>Profile</h1>
+
+  <mat-card appearance="outlined" class="profile-card">
+    <mat-card-content>
+      <div class="profile-header">
+        <mat-icon class="profile-icon">account_circle</mat-icon>
+        <div>
+          <h2>{{ user.displayName }}</h2>
+          <p>Assignment demo profile</p>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <div>
+          <span>User ID</span>
+          <strong>{{ user.userId }}</strong>
+        </div>
+        <div>
+          <span>Theme</span>
+          <mat-chip>{{ theme.theme() | titlecase }}</mat-chip>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

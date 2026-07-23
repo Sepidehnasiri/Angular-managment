@@ -13,7 +13,7 @@
   @if (loading()) {
     <div class="loading-state">
       <mat-spinner diameter="40"></mat-spinner>
-      <p>Loading your bookings…</p>
+      <p>Loading your bookings...</p>
     </div>
   } @else if (error()) {
     <div class="error-state">
@@ -24,7 +24,7 @@
   } @else if (filteredBookings().length === 0) {
     <div class="empty-state">
       <mat-icon>event_busy</mat-icon>
-      <p>No bookings yet.</p>
+      <p>{{ emptyMessage() }}</p>
       <a mat-flat-button color="primary" routerLink="/events">Browse events</a>
     </div>
   } @else {
@@ -46,7 +46,7 @@
               <span class="ref">Ref: {{ booking.referenceNumber }}</span>
             </div>
 
-            @if (filter() === 'upcoming' && booking.status === 'confirmed') {
+            @if (canCancelBooking(booking)) {
               <div class="booking-actions">
                 <button
                   mat-stroked-button

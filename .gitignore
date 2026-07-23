@@ -5,6 +5,8 @@
 /dist
 /out-tsc
 /.angular/cache
+/.cache
+/coverage
 
 # IDE
 .vscode/
@@ -19,6 +21,9 @@ Thumbs.db
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # Env
 .env
+.env.*
+!.env.example

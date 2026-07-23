@@ -34,5 +34,13 @@ export const routes: Routes = [
       ),
     title: 'My Bookings',
   },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./features/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
+    title: 'Profile',
+  },
   { path: '**', redirectTo: 'events' },
 ];

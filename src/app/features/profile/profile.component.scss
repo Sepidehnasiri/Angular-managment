@@ -1,0 +1,45 @@
+.profile-card {
+  background: var(--app-card-bg, #fff);
+  max-width: 640px;
+}
+
+.profile-header {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h2 {
+    margin: 0 0 4px;
+  }
+
+  p {
+    color: var(--app-muted, #666);
+    margin: 0;
+  }
+}
+
+.profile-icon {
+  font-size: 56px;
+  height: 56px;
+  width: 56px;
+}
+
+.profile-details {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+  div {
+    border-top: 1px solid var(--app-border, #e0e0e0);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 12px;
+  }
+
+  span {
+    color: var(--app-muted, #666);
+    font-size: 0.85rem;
+  }
+}

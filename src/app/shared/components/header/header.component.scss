@@ -4,6 +4,7 @@
   z-index: 100;
   display: flex;
   gap: 8px;
+  min-height: 64px;
 }
 
 .brand {
@@ -19,6 +20,7 @@
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
 }
 
@@ -36,5 +38,24 @@
 
   @media (min-width: 600px) {
     display: inline;
+  }
+}
+
+@media (max-width: 599px) {
+  .header-toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    height: auto;
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+
+  .brand {
+    margin-right: 4px;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
   }
 }

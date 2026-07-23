@@ -16,6 +16,7 @@ import { Booking } from '../../core/models/booking.model';
 import {
   ConfirmDialogComponent,
 } from '../../shared/components/confirm-dialog/confirm-dialog.component';
+import { isBeforeToday, isTodayOrFuture } from '../../core/utils/date-utils';
 
 type BookingFilter = 'upcoming' | 'past';
 
@@ -45,12 +46,10 @@ export class MyBookingsComponent implements OnInit {
   cancellingId = signal<string | null>(null);
 
   filteredBookings = computed(() => {
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
     return this.bookings().filter((b) => {
-      const eventDate = new Date(b.eventDate);
-      const isUpcoming = eventDate.getTime() >= now.getTime();
-      return this.filter() === 'upcoming' ? isUpcoming : !isUpcoming;
+      return this.filter() === 'upcoming'
+        ? isTodayOrFuture(b.eventDate)
+        : isBeforeToday(b.eventDate);
     });
   });
 
@@ -86,7 +85,24 @@ export class MyBookingsComponent implements OnInit {
     return booking.tickets.reduce((sum, t) => sum + t.quantity, 0);
   }
 
+  emptyMessage(): string {
+    if (this.bookings().length === 0) {
+      return 'No bookings yet.';
+    }
+    return this.filter() === 'upcoming'
+      ? 'No upcoming bookings.'
+      : 'No past bookings.';
+  }
+
+  canCancelBooking(booking: Booking): boolean {
+    return booking.status === 'confirmed' && isTodayOrFuture(booking.eventDate);
+  }
+
   cancelBooking(booking: Booking): void {
+    if (!this.canCancelBooking(booking) || this.cancellingId() === booking.id) {
+      return;
+    }
+
     const ref = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Cancel booking?',

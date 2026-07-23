@@ -31,6 +31,28 @@ body.theme-dark {
   --app-muted: #a0a0a0;
 }
 
+body.theme-dark .mat-mdc-card,
+body.theme-dark .mat-mdc-dialog-surface {
+  --mdc-elevated-card-container-color: var(--app-card-bg);
+  --mdc-outlined-card-container-color: var(--app-card-bg);
+  --mdc-dialog-container-color: var(--app-card-bg);
+  color: var(--app-fg);
+}
+
+body.theme-dark .mat-mdc-form-field,
+body.theme-dark .mat-mdc-select,
+body.theme-dark .mat-mdc-input-element,
+body.theme-dark .mat-mdc-button,
+body.theme-dark .mat-mdc-outlined-button {
+  color: var(--app-fg);
+}
+
+body.theme-dark .mat-mdc-select-arrow,
+body.theme-dark .mat-mdc-form-field-label,
+body.theme-dark .mat-mdc-floating-label {
+  color: var(--app-muted);
+}
+
 .page-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -41,7 +63,9 @@ body.theme-dark {
   flex: 1 1 auto;
 }
 
-.empty-state, .loading-state, .error-state {
+.empty-state,
+.loading-state,
+.error-state {
   display: flex;
   flex-direction: column;
   align-items: center;

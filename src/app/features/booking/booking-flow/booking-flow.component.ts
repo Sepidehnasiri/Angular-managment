@@ -25,6 +25,7 @@ import { BookingService } from '../../../core/services/booking.service';
 import { UserService } from '../../../core/services/user.service';
 import { EventModel } from '../../../core/models/event.model';
 import { NewBooking } from '../../../core/models/booking.model';
+import { formatLocalDate } from '../../../core/utils/date-utils';
 
 /** Validator: at least one ticket must be selected across all ticket types. */
 function atLeastOneTicketValidator(): ValidatorFn {
@@ -159,7 +160,15 @@ export class BookingFlowComponent implements OnInit {
 
   confirmBooking(): void {
     const event = this.event();
-    if (!event || this.ticketsForm.invalid || this.attendeesForm.invalid) return;
+    if (
+      !event ||
+      this.submitting() ||
+      this.bookingReference() ||
+      this.ticketsForm.invalid ||
+      this.attendeesForm.invalid
+    ) {
+      return;
+    }
 
     this.submitting.set(true);
     this.submitError.set(null);
@@ -179,7 +188,7 @@ export class BookingFlowComponent implements OnInit {
       attendees: this.attendeeControls.value,
       totalAmount: this.totalAmount(),
       status: 'confirmed',
-      bookingDate: new Date().toISOString().slice(0, 10),
+      bookingDate: formatLocalDate(new Date()),
       referenceNumber: this.bookingService.generateReferenceNumber(),
     };
 

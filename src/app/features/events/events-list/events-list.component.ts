@@ -20,6 +20,12 @@ import {
   PriceFilter,
   SortOption,
 } from '../../../core/models/event.model';
+import {
+  compareDateStrings,
+  isInCurrentMonth,
+  isTodayOrFuture,
+  isWithinNextDays,
+} from '../../../core/utils/date-utils';
 
 @Component({
   selector: 'app-events-list',
@@ -114,23 +120,15 @@ export class EventsListComponent implements OnInit {
 
   private matchesDateFilter(event: EventModel, filter: DateFilter): boolean {
     if (filter === 'all') return true;
-    const eventDate = new Date(event.date);
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
 
     if (filter === 'upcoming') {
-      return eventDate.getTime() >= now.getTime();
+      return isTodayOrFuture(event.date);
     }
     if (filter === 'this-week') {
-      const weekFromNow = new Date(now);
-      weekFromNow.setDate(now.getDate() + 7);
-      return eventDate >= now && eventDate <= weekFromNow;
+      return isWithinNextDays(event.date, 7);
     }
     if (filter === 'this-month') {
-      return (
-        eventDate.getFullYear() === now.getFullYear() &&
-        eventDate.getMonth() === now.getMonth()
-      );
+      return isInCurrentMonth(event.date);
     }
     return true;
   }
@@ -148,13 +146,9 @@ export class EventsListComponent implements OnInit {
     const sorted = [...list];
     switch (sort) {
       case 'date-asc':
-        return sorted.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
+        return sorted.sort((a, b) => compareDateStrings(a.date, b.date));
       case 'date-desc':
-        return sorted.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
+        return sorted.sort((a, b) => compareDateStrings(b.date, a.date));
       case 'price-asc':
         return sorted.sort((a, b) => this.minPrice(a) - this.minPrice(b));
       case 'price-desc':

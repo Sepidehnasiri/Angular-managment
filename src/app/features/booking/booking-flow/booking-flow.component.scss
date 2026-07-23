@@ -7,6 +7,12 @@
   margin-top: 16px;
 }
 
+.step-progress {
+  color: var(--app-muted, #666);
+  font-weight: 600;
+  margin: 4px 0 12px;
+}
+
 .step-content {
   padding: 16px 0;
   display: flex;
@@ -114,6 +120,21 @@
 .reference-number {
   font-size: 1.5rem;
   font-weight: 700;
-  letter-spacing: 1px;
   margin-bottom: 16px;
+}
+
+@media (max-width: 599px) {
+  .ticket-row,
+  .step-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .qty-field {
+    width: 100%;
+  }
+
+  .step-actions button {
+    width: 100%;
+  }
 }

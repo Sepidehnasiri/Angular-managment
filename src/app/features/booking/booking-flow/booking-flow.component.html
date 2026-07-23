@@ -2,7 +2,7 @@
   @if (loading()) {
     <div class="loading-state">
       <mat-spinner diameter="40"></mat-spinner>
-      <p>Loading event…</p>
+      <p>Loading event...</p>
     </div>
   } @else if (error()) {
     <div class="error-state">
@@ -17,12 +17,14 @@
       Back to {{ e.title }}
     </a>
 
-    <h1>Book Tickets — {{ e.title }}</h1>
+    <h1>Book Tickets - {{ e.title }}</h1>
 
     <mat-horizontal-stepper #stepper linear class="booking-stepper">
-      <!-- Step 1: Select Tickets -->
       <mat-step [stepControl]="ticketsForm" label="Select Tickets">
         <form [formGroup]="ticketsForm" class="step-content">
+          <p class="step-progress" aria-live="polite">
+            Step {{ stepper.selectedIndex + 1 }} of 3
+          </p>
           <p class="step-hint">Choose your ticket types and quantities.</p>
 
           @for (t of e.ticketTypes; track t.id) {
@@ -68,9 +70,11 @@
         </form>
       </mat-step>
 
-      <!-- Step 2: Attendee Details -->
       <mat-step [stepControl]="attendeesForm" label="Attendee Details">
         <form [formGroup]="attendeesForm" class="step-content">
+          <p class="step-progress" aria-live="polite">
+            Step {{ stepper.selectedIndex + 1 }} of 3
+          </p>
           <p class="step-hint">Enter details for each attendee ({{ totalTicketCount() }} ticket(s)).</p>
 
           <div formArrayName="attendees">
@@ -122,21 +126,23 @@
         </form>
       </mat-step>
 
-      <!-- Step 3: Confirmation -->
       <mat-step label="Confirmation">
         <div class="step-content">
+          <p class="step-progress" aria-live="polite">
+            Step {{ stepper.selectedIndex + 1 }} of 3
+          </p>
           @if (!bookingReference()) {
             <p class="step-hint">Review your booking before confirming.</p>
 
             <mat-card appearance="outlined" class="summary-card">
               <mat-card-content>
                 <h3>{{ e.title }}</h3>
-                <p>{{ e.date | date: 'mediumDate' }} · {{ e.time }} · {{ e.venue }}</p>
+                <p>{{ e.date | date: 'mediumDate' }} - {{ e.time }} - {{ e.venue }}</p>
 
                 <table class="summary-table">
                   @for (row of ticketBreakdown(); track row.name) {
                     <tr>
-                      <td>{{ row.name }} × {{ row.qty }}</td>
+                      <td>{{ row.name }} x {{ row.qty }}</td>
                       <td>{{ row.subtotal === 0 ? 'Free' : ('$' + row.subtotal) }}</td>
                     </tr>
                   }
@@ -159,7 +165,7 @@
                 mat-flat-button
                 color="primary"
                 type="button"
-                [disabled]="submitting()"
+                [disabled]="submitting() || !!bookingReference()"
                 (click)="confirmBooking()"
               >
                 @if (submitting()) {

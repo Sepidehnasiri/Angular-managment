@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "server": "json-server --watch db.json --port 3000",
+    "server:prod": "node server.cjs",
     "dev": "concurrently \"npm run server\" \"npm run start\""
   },
   "private": true,
