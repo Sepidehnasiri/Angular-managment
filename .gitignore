@@ -4,9 +4,12 @@
 # Angular build output
 /dist
 /out-tsc
-/.angular/cache
+/.angular
 /.cache
 /coverage
+
+# Claude Code local settings
+/.claude
 
 # IDE
 .vscode/

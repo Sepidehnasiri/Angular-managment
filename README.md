@@ -2,9 +2,9 @@
 
 GitHub repository: https://github.com/Sepidehnasiri/Angular-managment
 
-Live frontend URL: `TODO: add final Vercel URL`
+Live frontend URL: https://angular-managment.vercel.app/
 
-Live backend URL: `TODO: add final Render URL`
+Live backend URL: https://angular-managment-project.onrender.com
 
 Angular Event Management Platform for the Hands on Project 1 assignment. Users can browse events, view event details, book tickets through a three-step flow, manage bookings, cancel eligible bookings, view a simple profile page, and switch between light and dark themes.
 
@@ -101,22 +101,10 @@ Local development API URL:
 http://localhost:3000
 ```
 
-Production API URL placeholder:
+Production API URL (configured in `src/environments/environment.prod.ts`):
 
 ```text
-REPLACE_WITH_RENDER_BACKEND_URL
-```
-
-After the Render backend is deployed, replace `REPLACE_WITH_RENDER_BACKEND_URL` in:
-
-```text
-src/environments/environment.prod.ts
-```
-
-Use the Render root URL only, without a trailing slash. Example format:
-
-```text
-https://your-render-service-name.onrender.com
+https://angular-managment-project.onrender.com
 ```
 
 Do not edit individual services for deployment. Event and booking services both read the shared Angular environment configuration.
@@ -133,9 +121,9 @@ Do not edit individual services for deployment. Event and booking services both 
 
 ## Render Backend Deployment
 
-Deploy the JSON Server backend first.
+The JSON Server backend is deployed on Render.
 
-Suggested Render settings:
+Render settings used:
 
 ```text
 Service type: Web Service
@@ -152,20 +140,11 @@ node server.cjs
 
 `server.cjs` serves `db.json`, binds to `0.0.0.0`, and uses Render's `PORT` environment variable with a local fallback to `3000`.
 
-After deployment, test these URLs using the real Render backend URL:
-
-```text
-https://your-render-service-name.onrender.com/
-https://your-render-service-name.onrender.com/events
-https://your-render-service-name.onrender.com/events/1
-https://your-render-service-name.onrender.com/bookings?userId=user1
-```
-
 ## Vercel Frontend Deployment
 
-Deploy the Angular frontend after the Render backend URL has been inserted into `src/environments/environment.prod.ts`.
+The Angular frontend is deployed on Vercel, built against the Render backend URL configured in `environment.prod.ts`.
 
-Suggested Vercel settings:
+Vercel settings used:
 
 ```text
 Framework preset: Angular
@@ -213,28 +192,3 @@ vercel.json       Vercel SPA fallback routing
 - Filtering is client-side after fetching `/events`, which is acceptable for this assignment-sized JSON Server dataset.
 - Ticket availability is validated in the form but not decremented in `db.json` after booking.
 - Render's filesystem is ephemeral on many service types. Bookings created through hosted JSON Server may be temporary and can disappear after restarts or redeployments.
-
-## Final Public Testing Checklist
-
-- Open the Vercel frontend URL.
-- Confirm events load from the Render backend.
-- Refresh direct routes: `/events`, `/events/1`, `/events/1/book`, `/my-bookings`, `/profile`.
-- Test search, category/date/price filters, and sorting.
-- Open event details and confirm description, date/time, location, organizer, and ticket types.
-- Book one ticket and confirm the live total, attendee validation, confirmation message, and reference number.
-- Click View My Bookings and confirm the new booking appears.
-- Cancel the temporary booking and confirm the dialog appears before status changes.
-- Toggle light/dark mode, refresh, and confirm the preference persists.
-- Favorite an event, refresh, and confirm the favorite state persists.
-- Check mobile, tablet, and desktop widths.
-
-## Final Submission Checklist
-
-- Commit all legitimate project changes.
-- Push to the GitHub repository required for submission.
-- Confirm the Render backend URL is live.
-- Replace `REPLACE_WITH_RENDER_BACKEND_URL` in `src/environments/environment.prod.ts`.
-- Deploy the Angular frontend to Vercel.
-- Add the final Vercel and Render URLs to this README.
-- Run the final public testing checklist.
-- Submit the GitHub repository URL and live frontend demo URL.
